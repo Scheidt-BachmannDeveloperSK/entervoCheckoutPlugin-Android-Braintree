@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.scheidtbachmann.demoapp.braintree"
-        minSdkVersion 26
+        minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
@@ -29,9 +29,9 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation project(':entervocheckoutplugin-debug')
-    compile 'com.braintreepayments.api:drop-in:3.2.1'
-    compile 'com.braintreepayments.api:braintree:2.10.0'
-    compile 'commons-io:commons-io:2.4'
-    compile 'com.google.code.gson:gson:2.8.0'
+    implementation 'com.braintreepayments.api:drop-in:3.2.1'
+    implementation 'com.braintreepayments.api:braintree:2.10.0'
+    implementation 'commons-io:commons-io:2.4'
+    implementation 'com.google.code.gson:gson:2.8.0'
 
 }
