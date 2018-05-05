@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements SBCheckOutDelegat
 
                 String styles = getCustomStyleSheetAsString("mystyles.css");
                 plugin.setAsset( styles, AssetType.STYLESHEET);
+                Log.i( "DEMOAPP", "Using plugin version " + plugin.version());
                 plugin.start ( DEMO_TICKET, IdentificationType.BARCODE);
             }
         });
@@ -119,13 +120,16 @@ public class MainActivity extends AppCompatActivity implements SBCheckOutDelegat
 
     private void showReceipt( final SBCheckOutTransaction data) {
 
+        if ( data == null || !data.getSuccess()) {
+            return;
+        }
         String receiptText =
                 "RECEIPT NO. " + data.getUnique_pay_id() + "\n" +
                         "BRAINTREE TXN REF. " + data.getBraintree_transaction_id() + "\n" +
                         "FACILITY " + data.getFacility() + "\n" +
                         "ENTRY TIME " + formattedTime( data.getEntrytime()) + "\n" +
                         "TRANSACTION TIME " + formattedTime(data.getTransactionTime()) + "\n" +
-                        "TOTAL AMOUNT " + String.valueOf( data.getAmount()) + "\n" +
+                        "TOTAL AMOUNT " + String.valueOf( data.getAmount()) + " " + data.getCurrency() + "\n" +
                         "INCLUDING " + String.valueOf( data.getVat_amount()) + " VAT (" + data.getVat_rate() + ")\n" +
                         "TICKET NO. " + data.getEpan();
 
