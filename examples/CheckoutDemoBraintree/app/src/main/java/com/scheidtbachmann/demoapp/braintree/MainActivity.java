@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import com.scheidtbachmann.demoapp.R;
 import com.scheidtbachmann.entervocheckoutplugin.core.SBCheckOut;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.AssetType;
+import com.scheidtbachmann.entervocheckoutplugin.delegation.Environment;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.IdentificationType;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.LogLevel;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.SBCheckOutDelegate;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements SBCheckOutDelegat
                 FragmentManager fm = getSupportFragmentManager();
                 FragmentTransaction tx = fm.beginTransaction();
 
-                plugin = SBCheckOut.newInstance(API_KEY);
+                plugin = SBCheckOut.newInstance(API_KEY, Environment.SANDBOX);
                 tx.replace( R.id.tobeplaced, plugin, SBCheckOut.PLUGIN_FRAGEMENT_TAG);
                 tx.commit();
                 plugin.setDelegate( MainActivity.this);
@@ -66,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements SBCheckOutDelegat
 
                 String styles = getCustomStyleSheetAsString("mystyles.css");
                 plugin.setAsset( styles, AssetType.STYLESHEET);
-                Log.i( "DEMOAPP", "Using plugin version " + plugin.version());
                 plugin.start ( DEMO_TICKET, IdentificationType.BARCODE);
             }
         });
@@ -120,16 +120,13 @@ public class MainActivity extends AppCompatActivity implements SBCheckOutDelegat
 
     private void showReceipt( final SBCheckOutTransaction data) {
 
-        if ( data == null || !data.getSuccess()) {
-            return;
-        }
         String receiptText =
                 "RECEIPT NO. " + data.getUnique_pay_id() + "\n" +
                         "BRAINTREE TXN REF. " + data.getBraintree_transaction_id() + "\n" +
                         "FACILITY " + data.getFacility() + "\n" +
                         "ENTRY TIME " + formattedTime( data.getEntrytime()) + "\n" +
                         "TRANSACTION TIME " + formattedTime(data.getTransactionTime()) + "\n" +
-                        "TOTAL AMOUNT " + String.valueOf( data.getAmount()) + " " + data.getCurrency() + "\n" +
+                        "TOTAL AMOUNT " + String.valueOf( data.getAmount()) + "\n" +
                         "INCLUDING " + String.valueOf( data.getVat_amount()) + " VAT (" + data.getVat_rate() + ")\n" +
                         "TICKET NO. " + data.getEpan();
 
