@@ -35,9 +35,11 @@ The demo app that comes with the plugin is an excellent starting point to explor
 Before you can use the plugin, you will have to create an instance of it. The plugin's constructor expects you to pass in the api key that was provided to you by Scheidt & Bachmann. So, instantiating the plugin will look something like this:
 
 ```java
-SBCheckOut plugin = SBCheckOut.getInstance( "THE-API-KEY-PROVIDED-TO-YOU");
+SBCheckOut plugin = SBCheckOut.newInstance( "THE-API-KEY-PROVIDED-TO-YOU", Environment.SANDBOX);
 ```
-The plugin has been implemented as an Android _Fragment_ which can be easily embedded in your app's GUI. As it is discouraged by Google to provide _Fragment_ s with non-standard constructors, a new instance is obtained using the static helper function _getInstance()_ .
+The plugin has been implemented as an Android _Fragment_ which can be easily embedded in your app's GUI. As it is discouraged by Google to provide _Fragment_ s with non-standard constructors, a new instance is obtained using the static helper function _newInstance()_ . Note: you might want to take a look at the demo app to see it at work.
+
+You might have noticed that there is a second parameter to the _newInstance()_ method. It lets you point the plugin to either a *SANDBOX* environment (you will be using this in the beginning to prepare your app) or the final production system. In this case, you will use _Environment.LIVE_ instead of _Environment.SANDBOX_ .
 
 By default, the _entervoCheckoutPlugin_ plugin comes with built-in support for _Braintree_ as the PSP (payment service provider). As a result, you will be able to offer payment via both, _PayPal_ and credit cards. As an alternative, you can use a different payment engine (to be implemented and provided by you). Please see the separate section 'Payment Services' for further details.
 
