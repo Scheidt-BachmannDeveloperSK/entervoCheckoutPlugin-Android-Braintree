@@ -357,5 +357,14 @@ plugin.setLanguage( "de");
 
 The above code snippet will set the plugin UI language to _German_, no matter what the settings on the device look like. If there is currently no localization available for the language specified, the plugin will revert back to the default language and raise a corresponding error notifying the host app about this.
 
+By default, the plugin uses the locale setting currently active on the end-users device to determine the date format to be used. This can be overruled by you using the _setRegion()_ member function of the plugin:
+
+```java
+// select a specific date format 
+plugin.setRegion( "DE");
+```
+
+The above code snippeet selects German date format no matter what the setting on the device is.
+
 > __Note__ : the embedded _Braintree UI_ (drop-in) comes with its own set of localized resources which will also automatically kick in.
 
