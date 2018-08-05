@@ -364,7 +364,7 @@ By default, the plugin uses the locale setting currently active on the end-users
 plugin.setRegion( "DE");
 ```
 
-The above code snippeet selects German date format no matter what the setting on the device is.
+The above code snippet selects German date format no matter what the setting on the device is.
 
 > __Note__ : the embedded _Braintree UI_ (drop-in) comes with its own set of localized resources which will also automatically kick in.
 
