@@ -308,6 +308,62 @@ Below, you see a colored version of the price display screen to show its break-d
 </tr>
 </table>
 
+### Advanced Customization Options
+#### Header Image
+With the 2.4 version of the plugin, further customization options have been introduced. You can override the default behavior of displaying pre-configured texts in the header area (operator name and claim) by providing a logo image to be shown instead. For this purpose, a new asset type <i>IMAGE_TITLE</i> has been introduced.
+
+```java
+// retrieve drawable reference for picture in app assets
+int operatorLogoId = getResources().getIdentifier( "mylogo", "drawable", getApplicationContext().getPackageName());
+Drawable logo = getResources().getDrawable( operatorLogoId);
+plugin.setAsset( logo, AssetType.IMAGE_TITLE);
+```
+
+You will also have to make adjustments to your custom css directives. There is now a new css class <i>title_image</i> (as opposed to the already existing <i>title_text</i>).
+
+```css
+.title_image {
+    height: 100%;
+    background-color: transparent;
+    background-image: url("title.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+```
+
+#### Background Image Differentiation
+You can now also use different background images for the price display and the status notification screens. Again, new asset types have been introduced for this purpose: <i>IMAGE_BACKGROUND_PRICE</i> and <i>IMAGE_BACKGROUND_STATUS</i>. Setting them works as expected:
+
+```java
+// set bespoke background image for price screen
+int backgroundPriceScreen = getResources().getIdentifier( "mypricebackground", "drawable", getApplicationContext().getPackageName());
+Drawable bgPrice = getResources().getDrawable( backgroundPriceScreen);
+plugin.setAsset( bgPrice, AssetType.IMAGE_BACKGROUND_PRICE);
+
+// set bespoke background image for status notification screen
+int backgroundStatusScreen = getResources().getIdentifier( "mystatusbackground", "drawable", getApplicationContext().getPackageName());
+Drawable bgStatus = getResources().getDrawable( backgroundStatusScreen);
+plugin.setAsset( bgStatus, AssetType.IMAGE_BACKGROUND_STATUS);
+```
+
+Again, you'll also have to make a slight adjustment to the css directives in your custom css:
+
+```css
+.body_status {
+    background-image: url("background_status.png");
+	background-position: center;
+	background-size: contain;
+}
+
+.body_price {
+    background-image: url("background_price.png");
+	background-position: center;
+	background-size: contain;
+}
+
+```
+
 ## Controlling the Checkout Flow
 
 Normally, the only action on your end will be to start the checkout flow using the _start()_  function. There might be rare situations where your app will want to prematurely cancel a started checkout flow. For this purpose, the plugin offers the _cancel_ function. Please note that the plugin will attempt to cancel the current checkout flow. Should this not be possible (e.g. because control has already been transferred to the psp GUI), the plugin will not cancel the flow and instead throw an error using the _onError()_ call-back function of your _SBCheckOutDelegate_ interface delegate.
