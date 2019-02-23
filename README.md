@@ -61,20 +61,42 @@ The _SBCheckOutDelegate_ interface requires you to implement four methods via wh
 ```java
 public interface SBCheckOutDelegate {
 	public void onMessage( LogLevel level, String message);
-	public void onError( String message);
+	public void onError( ErrorCode error, String message);
 	public void onStatus( SBCheckOutStatus newStatus, SBCheckOutTransaction info);
 }
 ```
 
 The use of the three methods is basically self-explanatory, but we'll quickly go over them.
 
-### _onError( String message)_
+### _onError( ErrorCode error, String message)_
 
 This function is used as a call-back to let your application know that something didn't work. Under normal conditions, the plugin is trying to handle all upcoming issues itself and not bother the hosting application. There are however a few situations where the plugin will have to let you know that an action failed. The most popular examples for this are
 
 * the hosting application (i.e. your app) is trying to start a checkout flow without a proper prior initialization of the plugin
 * the hosting application is trying to start a checkout flow while the previously started flow hasn't been completed yet
 * the hosting application has requested to cancel the current flow, but this is not possible due to the current state of the plugin flow
+
+While the _message_ parameter is a human-readable error description, the _error_ parameter is an enum specifying the type of error that occurred. You can use this for further app-internal processing if you like.
+
+These are the (self-explanatory) types of errors that can occur.
+
+```java
+public enum ErrorCode {
+
+    UNKNOWN_ERROR,
+    WRONG_STATE,
+    MEDIUM_NOT_FOUND,
+    BARCODE_NOT_FOUND,
+    LPN_NOT_FOUND,
+    MOBILE_ID_NOT_FOUND,
+    NETWORK_NOT_AVAILABLE,
+    BACKEND_NOT_AVAILABLE,
+    CARPARK_NOT_AVAILABLE,
+    TRANSACTION_CANCELLED,
+    TRANSACTION_DECLINED
+}
+```
+
 
 The _message_ parameter provides some explanatory text about the error condition.
 
