@@ -18,6 +18,7 @@ import com.scheidtbachmann.demoapp.R;
 import com.scheidtbachmann.entervocheckoutplugin.core.SBCheckOut;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.AssetType;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.Environment;
+import com.scheidtbachmann.entervocheckoutplugin.delegation.ErrorCode;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.IdentificationType;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.LogLevel;
 import com.scheidtbachmann.entervocheckoutplugin.delegation.SBCheckOutDelegate;
@@ -99,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements SBCheckOutDelegat
         Log.i( "DEMOAPP", "LOG MESSAGE " + message);
     }
 
-    public void onError( String message) {
+    public void onError( ErrorCode errorCode, String errorMessage) {
 
-        Log.i( "DEMOAPP", "ERROR MESSAGE" + message);
+        Log.i( "DEMOAPP", "ERROR MESSAGE (" + errorCode.name() + "): " + errorMessage);
     }
 
     public void onStatus(SBCheckOutStatus newStatus, final SBCheckOutTransaction info) {
@@ -120,29 +121,32 @@ public class MainActivity extends AppCompatActivity implements SBCheckOutDelegat
 
     private void showReceipt( final SBCheckOutTransaction data) {
 
-        String receiptText =
-                "RECEIPT NO. " + data.getUnique_pay_id() + "\n" +
-                        "BRAINTREE TXN REF. " + data.getBraintree_transaction_id() + "\n" +
-                        "FACILITY " + data.getFacility() + " (" + data.getFacility_id() + ")\n" +
-                        "ENTRY TIME " + formattedTime( data.getEntrytime()) + "\n" +
-                        "TRANSACTION TIME " + formattedTime(data.getTransactionTime()) + "\n" +
-                        "TOTAL AMOUNT " + String.valueOf( data.getAmount()) + "\n" +
-                        "INCLUDING " + String.valueOf( data.getVat_amount()) + " " + data.getCurrency() + " VAT (" + data.getVat_rate() + ")\n" +
-                        "TICKET NO. " + data.getEpan();
+        if ( data != null) {
 
-        new AlertDialog.Builder(MainActivity.this)
-                .setTitle("YOUR RECEIPT")
-                .setMessage( receiptText)
-                .setCancelable(false)
-                .setPositiveButton(
-                        "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        })
-                .create()
-                .show();
+            String receiptText =
+                    "RECEIPT NO. " + data.getUnique_pay_id() + "\n" +
+                            "BRAINTREE TXN REF. " + data.getBraintree_transaction_id() + "\n" +
+                            "FACILITY " + data.getFacility() + " (" + data.getFacility_id() + ")\n" +
+                            "ENTRY TIME " + formattedTime(data.getEntrytime()) + "\n" +
+                            "TRANSACTION TIME " + formattedTime(data.getTransactionTime()) + "\n" +
+                            "TOTAL AMOUNT " + String.valueOf(data.getAmount()) + "\n" +
+                            "INCLUDING " + String.valueOf(data.getVat_amount()) + " " + data.getCurrency() + " VAT (" + data.getVat_rate() + ")\n" +
+                            "TICKET NO. " + data.getEpan();
+
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("YOUR RECEIPT")
+                    .setMessage(receiptText)
+                    .setCancelable(false)
+                    .setPositiveButton(
+                            "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            })
+                    .create()
+                    .show();
+        }
     }
 
     private String formattedTime( String entervoTime) {
