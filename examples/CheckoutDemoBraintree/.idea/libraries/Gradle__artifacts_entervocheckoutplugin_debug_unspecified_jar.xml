@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: artifacts:entervocheckoutplugin-debug:unspecified@jar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/entervocheckoutplugin-debug.aar/4f039195eec4b03a38a36bdc175a5a2b/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/entervocheckoutplugin-debug.aar/4f039195eec4b03a38a36bdc175a5a2b/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/entervocheckoutplugin-debug.aar/72ea04eeddb457133cea9c0cf232d5d2/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/entervocheckoutplugin-debug.aar/72ea04eeddb457133cea9c0cf232d5d2/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
